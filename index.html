@@ -1,180 +1,333 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>История как опора</title>
+
   <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
     body {
       background: #07100b;
-      color: white;
-      font-family: Arial, sans-serif;
-      padding: 40px;
+      color: #f4f4f0;
+      line-height: 1.5;
     }
-    .box {
+
+    .page {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 20px 80px;
+      min-height: 100vh;
+      background:
+        linear-gradient(rgba(7,16,11,.88), rgba(7,16,11,.96)),
+        url("https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?q=80&w=1600&auto=format&fit=crop");
+      background-size: cover;
+      background-position: center;
+    }
+
+    header {
+      margin-bottom: 60px;
+    }
+
+    .logo {
+      font-size: 22px;
+      font-weight: 700;
+    }
+
+    .hero {
+      margin-bottom: 50px;
+    }
+
+    h1 {
+      font-size: clamp(42px, 7vw, 78px);
+      line-height: 0.95;
+      margin-bottom: 22px;
+      max-width: 760px;
+    }
+
+    .subtitle {
+      color: #d8ded5;
+      font-size: 20px;
+      max-width: 650px;
+    }
+
+    .warning {
+      margin: 30px 0;
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.14);
+      padding: 18px 22px;
+      border-radius: 18px;
+      color: #dfe7dc;
       max-width: 900px;
-      margin: auto;
-      background: rgba(255,255,255,0.08);
-      padding: 30px;
-      border-radius: 24px;
     }
+
+    .generator {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 26px;
+    }
+
+    .panel {
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 26px;
+      padding: 28px;
+      backdrop-filter: blur(16px);
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      color: #d8ded5;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
     textarea, select, input {
       width: 100%;
-      padding: 14px;
-      margin: 10px 0 20px;
-      border-radius: 12px;
-      border: none;
-      font-size: 16px;
-    }
-    textarea {
-      height: 180px;
-    }
-    button {
-      padding: 16px 24px;
+      background: rgba(255,255,255,.92);
       border: none;
       border-radius: 14px;
-      font-weight: bold;
-      cursor: pointer;
+      padding: 14px;
+      margin-bottom: 18px;
+      font-size: 15px;
+      outline: none;
     }
-    #result {
-      margin-top: 30px;
-      background: rgba(0,0,0,0.35);
-      padding: 24px;
+
+    textarea {
+      min-height: 90px;
+      resize: vertical;
+    }
+
+    .btn {
+      border: none;
+      background: #f4f4f0;
+      color: #07100b;
+      padding: 16px 24px;
+      border-radius: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 15px;
+      margin-top: 8px;
+    }
+
+    .result {
+      background: rgba(0,0,0,.30);
       border-radius: 18px;
+      padding: 22px;
+      min-height: 520px;
       white-space: pre-line;
-      line-height: 1.6;
+      color: #eef2ec;
+      line-height: 1.7;
+    }
+
+    @media (max-width: 900px) {
+      .generator {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
+
 <body>
+  <div class="page">
+    <header>
+      <div class="logo">История как опора</div>
+    </header>
 
-  <div class="box">
-    <h1>История как опора</h1>
-    <p>Опишите ситуацию общими словами. Не указывайте личные данные, адреса, документы, пароли и конфиденциальную информацию.</p>
+    <section class="hero">
+      <h1>Соберите историю из своего опыта</h1>
+      <p class="subtitle">
+        Ответьте на несколько вопросов — система соберёт структуру истории,
+        покажет смысл, действия, изменения и потенциал вашего опыта.
+      </p>
+    </section>
 
-    <label>Ваша история</label>
-    <textarea id="story" placeholder="Например: я долго боялась выходить в сторис, но начала с маленьких шагов..."></textarea>
+    <div class="warning">
+      🌱 Важно: описывайте ситуацию общими словами. Не указывайте адреса,
+      документы, пароли, финансовые данные, диагнозы и другую конфиденциальную информацию.
+    </div>
 
-    <label>Формат</label>
-    <select id="format">
-      <option value="hero">Путь героя</option>
-      <option value="beforeafter">Было → Стало</option>
-      <option value="case">Кейс</option>
-      <option value="stories">Сторис</option>
-    </select>
+    <section class="generator">
+      <div class="panel">
+        <label>1. Что произошло?</label>
+        <textarea id="situation" placeholder="Например: я долго училась разным направлениям и не понимала, зачем всё это..."></textarea>
 
-    <label>Для кого эта история?</label>
-    <input id="audience" placeholder="Например: для экспертов, которые боятся вести блог">
+        <label>2. Что было самым сложным?</label>
+        <textarea id="difficulty" placeholder="Например: мне казалось, что я бегу и не вижу результата..."></textarea>
 
-    <button onclick="generateStory()">Собрать структуру</button>
+        <label>3. Какие конкретные действия вы совершили?</label>
+        <textarea id="actions" placeholder="Например: проходила обучение, внедряла знания, тестировала идеи, работала с клиентами..."></textarea>
 
-    <div id="result">Здесь появится результат.</div>
+        <label>4. Что изменилось?</label>
+        <textarea id="changes" placeholder="Например: я увидела, что знания складываются в систему..."></textarea>
+
+        <label>5. Какой вывод вы сделали?</label>
+        <textarea id="insight" placeholder="Например: результат не всегда виден сразу, иногда сначала накапливается потенциал..."></textarea>
+
+        <label>6. Для кого эта история?</label>
+        <input id="audience" placeholder="Например: для экспертов, которые сомневаются в своём пути" />
+
+        <label>Выберите формат</label>
+        <select id="format">
+          <option value="beforeafter">Было → Стало</option>
+          <option value="hero">Путь героя</option>
+          <option value="case">Кейс</option>
+          <option value="stories">Сторис</option>
+        </select>
+
+        <button class="btn" onclick="generateStory()">Найти смысл истории</button>
+      </div>
+
+      <div class="panel">
+        <h2 style="margin-bottom:16px;">Результат</h2>
+        <div class="result" id="result">Здесь появится структура вашей истории.</div>
+      </div>
+    </section>
   </div>
 
   <script>
     function generateStory() {
-      const story = document.getElementById("story").value.trim();
+      const situation = document.getElementById("situation").value.trim();
+      const difficulty = document.getElementById("difficulty").value.trim();
+      const actions = document.getElementById("actions").value.trim();
+      const changes = document.getElementById("changes").value.trim();
+      const insight = document.getElementById("insight").value.trim();
+      const audience = document.getElementById("audience").value.trim() || "вашей аудитории";
       const format = document.getElementById("format").value;
-      const audience = document.getElementById("audience").value.trim() || "для вашей аудитории";
 
-      if (!story) {
-        document.getElementById("result").innerText = "Напишите историю, чтобы я смогла собрать структуру.";
+      if (!situation || !difficulty || !actions || !changes || !insight) {
+        document.getElementById("result").innerText =
+          "Заполните основные поля: что произошло, сложность, действия, изменения и вывод.";
         return;
       }
 
       let result = "";
-
-      if (format === "hero") {
-        result =
-`ФОРМАТ: ПУТЬ ГЕРОЯ
-
-1. Было:
-${story}
-
-2. Вызов:
-Что в этой ситуации стало для вас трудностью?
-
-3. Сомнение:
-Какие мысли, страхи или внутренние вопросы появились?
-
-4. Действие:
-Какой шаг вы сделали?
-
-5. Изменение:
-Что стало иначе после этого?
-
-6. Смысл:
-Какой вывод можно передать ${audience}?
-
-7. Заготовка начала:
-"Иногда важные перемены начинаются не с большого решения, а с честного взгляда на свою ситуацию..."`;
-      }
 
       if (format === "beforeafter") {
         result =
 `ФОРМАТ: БЫЛО → СТАЛО
 
 БЫЛО:
-${story}
+${situation}
 
-ПЕРЕЛОМНЫЙ МОМЕНТ:
-Что заставило вас посмотреть на ситуацию иначе?
+ЧТО БЫЛО СЛОЖНО:
+${difficulty}
 
-ДЕЙСТВИЕ:
-Что вы начали делать по-другому?
+КАКИЕ ДЕЙСТВИЯ БЫЛИ СОВЕРШЕНЫ:
+${actions}
 
 СТАЛО:
-Что изменилось в вашем состоянии, действиях или результате?
+${changes}
 
-ВЫВОД:
-Какой урок можно передать ${audience}?`;
+ГЛАВНЫЙ ВЫВОД:
+${insight}
+
+ДЛЯ КОГО ЭТА ИСТОРИЯ:
+Для ${audience}.
+
+ПОТЕНЦИАЛ ИСТОРИИ:
+Эта история показывает, что опыт не всегда даёт быстрый результат, но может становиться накопленным потенциалом.
+
+КАЧЕСТВА, КОТОРЫЕ ПРОЯВИЛИСЬ:
+— настойчивость
+— развитие
+— способность продолжать путь
+— умение видеть смысл в опыте`;
+      }
+
+      if (format === "hero") {
+        result =
+`ФОРМАТ: ПУТЬ ГЕРОЯ
+
+ОБЫЧНЫЙ МИР:
+${situation}
+
+ВЫЗОВ:
+${difficulty}
+
+ДЕЙСТВИЕ ГЕРОЯ:
+${actions}
+
+ТРАНСФОРМАЦИЯ:
+${changes}
+
+МУДРОСТЬ ИСТОРИИ:
+${insight}
+
+ДЛЯ КОГО:
+Для ${audience}.
+
+ЗАГОТОВКА НАЧАЛА:
+"Иногда путь кажется хаотичным только потому, что мы ещё не видим, во что складывается наш опыт."
+
+ПОТЕНЦИАЛ ИСТОРИИ:
+Эта история раскрывает путь человека, который не остановился в момент сомнений, а продолжил движение и увидел смысл позже.`;
       }
 
       if (format === "case") {
         result =
 `ФОРМАТ: КЕЙС
 
-Контекст:
-${story}
+КОНТЕКСТ:
+${situation}
 
-Проблема:
-Что здесь было главным затруднением?
+ПРОБЛЕМА:
+${difficulty}
 
-Решение:
-Что было сделано?
+РЕШЕНИЕ:
+${actions}
 
-Результат:
-Что изменилось?
+РЕЗУЛЬТАТ:
+${changes}
 
-Инсайт:
-Почему эта история может быть полезна ${audience}?`;
+ВЫВОД:
+${insight}
+
+КОМУ ПОЛЕЗНО:
+Для ${audience}.
+
+СМЫСЛ КЕЙСА:
+Эта история показывает, что результат появляется не только от одного действия, а от последовательности шагов.`;
       }
 
       if (format === "stories") {
         result =
 `ФОРМАТ: СТОРИС
 
-Сторис 1 — зацепка:
-"Сегодня поймала себя на мысли..."
+СТОРИС 1 — ЗАЦЕПКА:
+"Недавно я поняла одну важную вещь..."
 
-Сторис 2 — ситуация:
-${story}
+СТОРИС 2 — СИТУАЦИЯ:
+${situation}
 
-Сторис 3 — эмоция:
-Что вы почувствовали в этот момент?
+СТОРИС 3 — СЛОЖНОСТЬ:
+${difficulty}
 
-Сторис 4 — поворот:
-Что помогло вам увидеть ситуацию иначе?
+СТОРИС 4 — ДЕЙСТВИЯ:
+${actions}
 
-Сторис 5 — вывод:
-Какой смысл вы забрали?
+СТОРИС 5 — ЧТО ИЗМЕНИЛОСЬ:
+${changes}
 
-Сторис 6 — вопрос аудитории:
-"А у вас было такое?"`;
+СТОРИС 6 — ВЫВОД:
+${insight}
+
+СТОРИС 7 — ВОПРОС:
+"А у вас было ощущение, что ваш опыт складывается в систему только спустя время?"
+
+ДЛЯ КОГО:
+Для ${audience}.`;
       }
 
       document.getElementById("result").innerText = result;
     }
   </script>
-
 </body>
 </html>
